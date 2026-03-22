@@ -1,0 +1,175 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.ab-root {
+    --bg: #0a0a0f;
+    --surface: #111111;
+    --border: #222222;
+    --text: #e8e8e8;
+    --text-muted: #888888;
+    --accent: #C8FF00;
+    --font-display: 'Instrument Serif', serif;
+    --font-mono: 'DM Mono', monospace;
+
+    font-family: var(--font-mono);
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 80px 24px;
+    width: 100%;
+}
+
+.ab-wrapper {
+    width: 100%;
+    max-width: 600px;
+}
+
+/* Linha lateral verde no bloco de texto */
+.ab-bio {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+
+    border-left: 1px solid var(--accent);
+    padding-left: 28px;
+}
+
+.ab-bio.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Tag */
+.ab-role-tag {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.ab-role-tag::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+}
+
+/* Nome */
+.ab-name {
+    font-family: var(--font-display);
+    font-size: clamp(36px, 4.5vw, 64px);
+    line-height: 1.0;
+    margin-top: 20px;
+    margin-bottom: 28px;
+    color: var(--text);
+    font-style: italic;
+}
+
+/* Bio */
+.ab-bio-text {
+    font-size: 16px;
+    line-height: 1.7;
+    color: var(--text-muted);
+    max-width: 100%;
+    margin-bottom: 48px;
+    font-weight: 300;
+    text-align: left;
+}
+
+.ab-bio-text strong {
+    color: var(--text);
+    font-weight: 400;
+}
+
+.ab-facts {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    box-shadow:
+        0 0 40px rgba(200, 255, 0, 0.06),
+        0 0 1px rgba(200, 255, 0, 0.15);
+    overflow: hidden;
+}
+
+.ab-fact {
+    padding: 20px 14px;
+    text-align: center;
+    border-right: 1px solid var(--border);
+    transition: background 0.3s;
+}
+
+.ab-fact:last-child {
+    border-right: none;
+}
+
+.ab-fact:hover {
+    background: var(--surface);
+}
+
+.ab-fact-value {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    font-style: italic;
+    color: var(--text);
+    display: block;
+    margin-bottom: 6px;
+    line-height: 1.2;
+    word-break: break-word;
+}
+
+.ab-fact-label {
+    font-family: var(--font-mono);
+    font-size: 9px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    line-height: 1.4;
+}
+
+/* Mobile */
+@media (max-width: 540px) {
+    .ab-bio {
+        border-left: 3px solid var(--accent);
+        padding-left: 20px;
+    }
+
+    .ab-facts {
+        grid-template-columns: 1fr;
+    }
+
+    .ab-fact {
+        border-right: none;
+        border-bottom: 1px solid var(--border);
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        text-align: left;
+        padding: 16px 20px;
+    }
+
+    .ab-fact:last-child {
+        border-bottom: none;
+    }
+
+    .ab-fact-value {
+        margin-bottom: 0;
+        flex-shrink: 0;
+        min-width: 120px;
+    }
+}

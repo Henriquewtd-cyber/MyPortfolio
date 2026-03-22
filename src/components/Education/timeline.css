@@ -1,0 +1,434 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=DM+Mono:wght@300;400;500&display=swap');
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+.tl-root {
+    --bg: #0a0a0f;
+    --surface: #111111;
+    /* era #13131a */
+    --border: #222222;
+    --text: #e8e8e8;
+    --muted: #888888;
+    --line: #2a2a2a;
+    --accent: #C8FF00;
+
+    font-family: 'DM Mono', monospace;
+    background: var(--bg);
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px 24px 24px 0px;
+    margin-bottom: -80px;
+}
+
+.tl-wrapper {
+    width: 100%;
+    max-width: 900px;
+}
+
+.tl-header {
+    text-align: center;
+    margin-bottom: 80px;
+}
+
+/* Tag — agora com linha ::before igual ao .hero-tag */
+.tl-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+}
+
+.tl-label::before {
+    content: '';
+    width: 32px;
+    height: 1px;
+    background: var(--accent);
+}
+
+.tl-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: clamp(2.5rem, 6vw, 4.5rem);
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.05;
+    font-style: italic;
+}
+
+.tl-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    background-color: var(--bg);
+}
+
+/* Vertical line */
+.tl-line {
+    position: absolute;
+    left: 50%;
+    top: 24px;
+    bottom: 24px;
+    width: 1px;
+    transform: translateX(-50%);
+    overflow: hidden;
+}
+
+.tl-line-track {
+    position: absolute;
+    inset: 0;
+    background: var(--line);
+}
+
+.tl-line-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    background: var(--accent);
+    /* era gradient multi-cor — agora só accent */
+    transition: height 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+    height: 0;
+}
+
+.tl-line.active .tl-line-fill {
+    height: 100%;
+}
+
+/* Item row */
+.tl-item {
+    display: grid;
+    grid-template-columns: 1fr 48px 1fr;
+    align-items: start;
+    padding: 32px 0;
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.tl-item.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.tl-item:nth-child(1) {
+    transition-delay: 0.1s;
+}
+
+.tl-item:nth-child(2) {
+    transition-delay: 0.3s;
+}
+
+.tl-item:nth-child(3) {
+    transition-delay: 0.5s;
+}
+
+.tl-item.is-left .tl-node-col {
+    order: 2;
+}
+
+.tl-item.is-left .tl-card-left {
+    order: 1;
+}
+
+.tl-item.is-left .tl-empty {
+    order: 3;
+}
+
+.tl-item.is-right .tl-node-col {
+    order: 2;
+}
+
+.tl-item.is-right .tl-card-right {
+    order: 3;
+}
+
+.tl-item.is-right .tl-empty {
+    order: 1;
+}
+
+.tl-node-col {
+    display: flex;
+    justify-content: center;
+    align-items: flex-start;
+    position: relative;
+    z-index: 2;
+}
+
+.tl-dot {
+    width: 14px;
+    height: 14px;
+    border-radius: 50%;
+    background: var(--bg);
+    border: 2px solid currentColor;
+    margin-top: 18px;
+    flex-shrink: 0;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.tl-item:hover .tl-dot {
+    transform: scale(1.6);
+    box-shadow: 0 0 16px currentColor;
+}
+
+/* Card base — adicionado border-radius: 4px igual ao hero */
+.tl-card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 28px 32px;
+    position: relative;
+    transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+    cursor: default;
+}
+
+.tl-card:hover {
+    transform: translateY(-3px);
+    /* glow sutil igual ao padrão do site */
+    box-shadow: 0 0 40px rgba(200, 255, 0, 0.06), 0 0 1px rgba(200, 255, 0, 0.15);
+}
+
+.tl-item:hover .tl-card {
+    border-color: currentColor;
+}
+
+/* Left card */
+.tl-card-left {
+    margin-right: 28px;
+    text-align: right;
+}
+
+.tl-card-left::after {
+    content: '';
+    position: absolute;
+    right: -8px;
+    top: 22px;
+    width: 8px;
+    height: 8px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    border-top: 1px solid var(--border);
+    transform: rotate(45deg);
+    transition: border-color 0.3s ease;
+}
+
+.tl-item:hover .tl-card-left::after {
+    border-color: currentColor;
+}
+
+.tl-card-left::before {
+    content: '';
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 3px;
+    height: 0;
+    background: currentColor;
+    transition: height 0.4s ease;
+    border-radius: 0 4px 4px 0;
+}
+
+.tl-item:hover .tl-card-left::before {
+    height: 100%;
+}
+
+/* Right card */
+.tl-card-right {
+    margin-left: 28px;
+    text-align: left;
+}
+
+.tl-card-right::before {
+    content: '';
+    position: absolute;
+    left: -8px;
+    top: 22px;
+    width: 8px;
+    height: 8px;
+    background: var(--surface);
+    border-left: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+    transform: rotate(45deg);
+    transition: border-color 0.3s ease;
+}
+
+.tl-item:hover .tl-card-right::before {
+    border-color: currentColor;
+}
+
+.tl-card-right::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 3px;
+    height: 0;
+    background: currentColor;
+    transition: height 0.4s ease;
+    border-radius: 4px 0 0 4px;
+}
+
+.tl-item:hover .tl-card-right::after {
+    height: 100%;
+}
+
+.tl-empty {
+    min-width: 0;
+}
+
+/* Typography */
+.tl-year {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    color: currentColor;
+    margin-bottom: 10px;
+    opacity: 0.8;
+}
+
+.tl-card-title {
+    font-family: 'Instrument Serif', serif;
+    font-size: 1.45rem;
+    font-weight: 400;
+    color: var(--text);
+    line-height: 1.2;
+    margin-bottom: 4px;
+}
+
+.tl-card-role {
+    font-size: 11px;
+    letter-spacing: 0.15em;
+    /* era 0.1em — alinha com padrão hero-tag */
+    color: currentColor;
+    text-transform: uppercase;
+    margin-bottom: 14px;
+    opacity: 0.75;
+}
+
+.tl-card-desc {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--muted);
+    font-weight: 300;
+    margin-bottom: 18px;
+}
+
+.tl-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.tl-card-left .tl-tags {
+    justify-content: flex-end;
+}
+
+.tl-card-right .tl-tags {
+    justify-content: flex-start;
+}
+
+/* Tags — border accent por padrão, igual ao btn-secondary do hero */
+.tl-tag {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    padding: 4px 10px;
+    border: 1px solid var(--accent);
+    /* era var(--border) */
+    color: var(--accent);
+    /* era var(--muted) */
+    text-transform: uppercase;
+    border-radius: 4px;
+    /* adicionado — alinha com hero */
+    transition: background 0.25s, color 0.25s;
+}
+
+.tl-item:hover .tl-tag:hover {
+    background: var(--accent);
+    color: var(--bg);
+}
+
+/* Mobile ≤ 640px */
+@media (max-width: 640px) {
+    .tl-item {
+        grid-template-columns: 32px 1fr;
+    }
+
+    .tl-line {
+        left: 15px;
+        transform: none;
+    }
+
+    .tl-item.is-left .tl-node-col,
+    .tl-item.is-right .tl-node-col {
+        order: 0;
+    }
+
+    .tl-item.is-left .tl-card-left,
+    .tl-item.is-right .tl-card-right {
+        order: 1;
+    }
+
+    .tl-empty {
+        display: none !important;
+    }
+
+    .tl-card-left,
+    .tl-card-right {
+        text-align: left;
+        margin-left: 16px;
+        margin-right: 0;
+    }
+
+    .tl-card-left .tl-tags,
+    .tl-card-right .tl-tags {
+        justify-content: flex-start;
+    }
+
+    .tl-card-left::after {
+        right: auto;
+        left: -8px;
+        top: 22px;
+        width: 8px;
+        height: 8px;
+        border: none;
+        border-left: 1px solid var(--border);
+        border-bottom: 1px solid var(--border);
+        transform: rotate(45deg);
+        background: var(--surface);
+        transition: border-color 0.3s ease;
+    }
+
+    .tl-item:hover .tl-card-left::after {
+        border-color: currentColor;
+    }
+
+    .tl-card-left::before {
+        right: auto;
+        left: 0;
+        top: 0;
+        width: 3px;
+        height: 0;
+        border: none;
+        background: currentColor;
+        transform: none;
+        transition: height 0.4s ease;
+    }
+
+    .tl-item:hover .tl-card-left::before {
+        height: 100%;
+    }
+
+    .tl-dot {
+        margin-top: 18px;
+    }
+}

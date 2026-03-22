@@ -1,0 +1,15 @@
+/* EDUCAÇÃO */
+.education-timeline {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-height: 100vh;
+}
+
+.education {
+    margin-top: 32px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    justify-content: center;
+}
