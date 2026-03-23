@@ -1,18 +1,39 @@
-# React + Vite
+# Portfolio
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este é meu portfólio pessoal, desenvolvido para apresentar meus projetos, habilidades e experiência como desenvolvedor.
 
-Currently, two official plugins are available:
+## 🚀 Sobre
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+O objetivo deste portfólio é reunir projetos práticos, com foco em desenvolvimento fullstack e backend, incluindo integração com APIs e automação de processos.
 
-## React Compiler
+## 🛠️ Tecnologias
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+- React  
+- JavaScript  
+- HTML & CSS  
 
-Note: This will impact Vite dev & build performances.
+## 📂 Projetos
 
-## Expanding the ESLint configuration
+Alguns dos projetos incluídos:
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+- **NeuroPost**  
+  Aplicação fullstack com geração de texto e imagem utilizando IA.
+
+- **Client Manager**  
+  Sistema para gerenciamento de clientes.
+
+- **Acervo Digital**  
+  Plataforma para organização de documentos acadêmicos.
+
+## 💡 Objetivo
+
+Demonstrar na prática minhas habilidades em desenvolvimento, organização de código e criação de soluções funcionais.
+
+## 📷 Demonstração
+
+*(link do portfolio)*
+
+## 📫 Contato
+
+- GitHub: https://github.com/Henriquewtd-cyber 
+- Email: henriquewt.dev@gmail.com
