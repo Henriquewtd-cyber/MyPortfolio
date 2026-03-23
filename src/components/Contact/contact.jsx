@@ -96,11 +96,11 @@ export default function Contact() {
                         <div className="contact-form">
                             <div className="form-group">
                                 <label>Nome</label>
-                                <input placeholder="Seu nome" name="from_name" />
+                                <input placeholder="Seu nome" name="from_name" required />
                             </div>
                             <div className="form-group">
                                 <label>Email</label>
-                                <input type="email" placeholder="seu@email.com" name="from_email" />
+                                <input type="email" placeholder="seu@email.com" name="from_email" required />
                             </div>
                             <div className="form-group">
                                 <label>Mensagem</label>

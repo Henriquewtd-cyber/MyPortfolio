@@ -58,20 +58,19 @@ export default function Portfolio() {
 
   return (
     <div className="portfolio">
-      <nav>
+      <nav ref={menuRef}>
         <div className="nav-logo">{"<Henrique />"}</div>
 
         {/* Hamburger */}
         <button
           className="nav-hamburger"
-          onClick={() => setMenuOpen(o => !o)}
+          onClick={() => setMenuOpen(!menuOpen)}
           aria-label="Menu"
         >
           {menuOpen ? "✕" : "☰"}
         </button>
 
         <div
-          ref={menuRef}
           className={`nav-links ${menuOpen ? "open" : ""}`}
         >
 
