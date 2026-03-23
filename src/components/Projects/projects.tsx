@@ -40,7 +40,7 @@ const PROJECTS = [
         title: "Automação Empresarial",
         desc: "Sistema interno de automação que envia atualizações semanais para membros da empresa. Utiliza n8n e Google Cloud para orquestração de workflows.",
         tags: ["n8n", "Google Cloud", "Automação"],
-        demo: "../../../public/n8n-model.webp",
+        demo: "../../../n8n-model.webp",
         repo: "#",
         links: "Preview"
     },
