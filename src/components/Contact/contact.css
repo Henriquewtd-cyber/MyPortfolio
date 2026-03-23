@@ -93,3 +93,9 @@ textarea {
     color: var(--accent);
     font-size: 14px;
 }
+
+@media (max-width: 640px) {
+    .social-links span {
+        font-size: large;
+    }
+}
