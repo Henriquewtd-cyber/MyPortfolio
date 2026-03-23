@@ -19,7 +19,7 @@ const PROJECTS = [
         title: "ClientManager",
         desc: "Sistema de agendamento de consultas com gestão de agenda e automações via chatbot. Integra n8n, Redis e WhatsApp para comunicação automatizada com clientes.",
         tags: ["Next.js", "Node.js", "TypeScript", "MongoDB", "Redis"],
-        demo: "#",
+        demo: "https://github.com/Henriquewtd-cyber/Client-Manager",
         repo: "https://github.com/Henriquewtd-cyber/Client-Manager",
         links: "Em desenvolvimento"
     },
