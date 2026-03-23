@@ -58,7 +58,7 @@ export default function Portfolio() {
 
   return (
     <div className="portfolio">
-      <nav>
+      <nav ref={menuRef}>
         <div className="nav-logo">{"<Henrique />"}</div>
 
         {/* Hamburger */}
@@ -71,7 +71,6 @@ export default function Portfolio() {
         </button>
 
         <div
-          ref={menuRef}
           className={`nav-links ${menuOpen ? "open" : ""}`}
         >
 
