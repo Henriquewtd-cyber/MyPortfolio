@@ -3,6 +3,8 @@ import { useState, useRef } from "react";
 import emailjs from "@emailjs/browser";
 
 import "./contact.css"
+import { useLang } from "../../App";
+
 
 const socialLinks = [
     {
@@ -22,22 +24,23 @@ const socialLinks = [
     },
 ];
 
-const EMAILJS_SERVICE_ID = "service_c9l9rwh";   // ex: "service_abc123"
-const EMAILJS_TEMPLATE_ID = "template_ijzohrj";  // ex: "template_xyz456"
-const EMAILJS_PUBLIC_KEY = "sy7aHcX3Mh0jx_7Jw";   // ex: "aBcDeFgHiJkLmNoP"
+const EMAILJS_SERVICE_ID = "service_c9l9rwh";
+const EMAILJS_TEMPLATE_ID = "template_ijzohrj";
+const EMAILJS_PUBLIC_KEY = "sy7aHcX3Mh0jx_7Jw";
+
 
 export default function Contact() {
+
+    const { t } = useLang();
 
     const [form, setForm] = useState({ name: "", email: "", message: "" });
     const [formSent, setFormSent] = useState(false);
 
-    const formRef = useRef(null);
-    const [status, setStatus] = useState("idle");
-
-    status: "idle" | "sending" | "success" | "error"
+    const formRef = useRef<HTMLFormElement>(null);
+    const [status, setStatus] = useState<"idle" | "sending" | "success" | "error">("idle");
 
 
-    const handleSubmit = async (e, formRef, setStatus) => {
+    const handleSubmit = async (e: React.FormEvent<HTMLFormElement>, formRef: React.RefObject<HTMLFormElement>, setStatus: React.Dispatch<React.SetStateAction<"idle" | "sending" | "success" | "error">>) => {
         e.preventDefault();
 
         setStatus("sending");
@@ -63,11 +66,11 @@ export default function Contact() {
     };
 
     return (<><div className="section-header">
-        <div className="section-tag">Contato</div>
-        <h2 className="section-title">Vamos <em style={{ fontFamily: "'Playfair Display',serif", fontStyle: "italic", color: "var(--accent)" }}>conversar</em></h2>
+        <div className="section-tag">{t("contact.tag")}</div>
+        <h2 className="section-title">{t("contact.title.part1")} <em style={{ fontFamily: "'Playfair Display',serif", fontStyle: "italic", color: "var(--accent)" }}>{t("contact.title.part2")}</em></h2>
     </div><div className="contact-layout">
             <div className="contact-info">
-                <p>Estou aberto a novas oportunidades, projetos freelance ou apenas uma boa conversa sobre tecnologia. Me manda uma mensagem!</p>
+                <p>{t("contact.description")}</p>
                 <div className="social-links">
                     {socialLinks.map((s) => (
                         <a
@@ -86,27 +89,27 @@ export default function Contact() {
             <div>
                 {formSent ? (
                     <div className="form-success">
-                        ✓ Mensagem enviada!<br />
-                        <span style={{ color: "var(--text-muted)", fontSize: 13, marginTop: 8, display: "block" }}>Responderei em breve.</span>
+                        ✓ {t("contact.success.title")}<br />
+                        <span style={{ color: "var(--text-muted)", fontSize: 13, marginTop: 8, display: "block" }}>{t("contact.success.subtitle")}</span>
                     </div>
                 ) : (
 
 
-                    < form ref={formRef} onSubmit={(e) => handleSubmit(e, formRef, setStatus)}>
+                    <form ref={formRef} onSubmit={(e) => handleSubmit(e, formRef as React.RefObject<HTMLFormElement>, setStatus)}>
                         <div className="contact-form">
                             <div className="form-group">
-                                <label>Nome</label>
-                                <input placeholder="Seu nome" name="from_name" required />
+                                <label>{t("contact.form.name.label")}</label>
+                                <input placeholder={t("contact.form.name.placeholder")} name="from_name" required />
                             </div>
                             <div className="form-group">
-                                <label>Email</label>
-                                <input type="email" placeholder="seu@email.com" name="from_email" required />
+                                <label>{t("contact.form.email.label")}</label>
+                                <input type="email" placeholder={t("contact.form.email.placeholder")} name="from_email" required />
                             </div>
                             <div className="form-group">
-                                <label>Mensagem</label>
-                                <textarea placeholder="Conta sobre o seu projeto..." name="message" />
+                                <label>{t("contact.form.message.label")}</label>
+                                <textarea placeholder={t("contact.form.message.placeholder")} name="message" />
                             </div>
-                            <button type="submit" className="btn-primary" disabled={status === "sending"}>{status === "sending" ? "Enviando..." : "Enviar mensagem →"}</button>
+                            <button type="submit" className="btn-primary" disabled={status === "sending"}>{status === "sending" ? t("contact.form.sending") : t("contact.form.submit")}</button>
                         </div>
                     </form >
                 )}

@@ -1,58 +1,61 @@
 
 import "./projects.css"
+import { useLang } from "../../App";
 
 
-const PROJECTS = [
-    {
-        emoji: "🧠",
-        bg: "linear-gradient(135deg,#1a1a2e,#16213e)",
-        title: "NeuroPost",
-        desc: "Plataforma fullstack com autenticação, armazenamento de arquivos por usuário e geração de imagens com IA. Inclui API REST estruturada e integração com banco NoSQL.",
-        tags: ["MongoDB", "Express", "React", "Node.js"],
-        demo: "https://youtu.be/iTvTdeK2C-Q",
-        repo: "https://github.com/Henriquewtd-cyber/NeuroPost",
-        links: "Assistir demo"
-    },
-    {
-        emoji: "📅",
-        bg: "linear-gradient(135deg,#0f2027,#203a43)",
-        title: "ClientManager",
-        desc: "Sistema de agendamento de consultas com gestão de agenda e automações via chatbot. Integra n8n, Redis e WhatsApp para comunicação automatizada com clientes.",
-        tags: ["Next.js", "Node.js", "TypeScript", "MongoDB", "Redis"],
-        demo: "https://github.com/Henriquewtd-cyber/Client-Manager",
-        repo: "https://github.com/Henriquewtd-cyber/Client-Manager",
-        links: "Em desenvolvimento"
-    },
-    {
-        emoji: "📁",
-        bg: "linear-gradient(135deg,#1a0533,#2d0b5a)",
-        title: "Acervo Pet",
-        desc: "Plataforma de acervo digital desenvolvida em parceria com a empresa júnior IME-Jr. Sistema com autenticação e armazenamento de documentos, utilizando banco relacional.",
-        tags: ["Next.js", "Node.js", "TypeScript", "PostgreSQL"],
-        demo: "https://youtu.be/NZLMlUFhGDM",
-        repo: "https://github.com/acervopet/AcervoPet",
-        links: "Assistir demo"
-    },
-
-    {
-        emoji: "⚙️",
-        bg: "linear-gradient(135deg,#232526,#414345)",
-        title: "Automação Empresarial",
-        desc: "Sistema interno de automação que envia atualizações semanais para membros da empresa. Utiliza n8n e Google Cloud para orquestração de workflows.",
-        tags: ["n8n", "Google Cloud", "Automação"],
-        demo: "../../../n8n-model.webp",
-        repo: "#",
-        links: "Preview"
-    },
-];
+function getProjects(t: (key: string) => string) {
+    return [
+        {
+            emoji: "🧠",
+            bg: "linear-gradient(135deg,#1a1a2e,#16213e)",
+            title: t("projects.neuropost.title"),
+            desc: t("projects.neuropost.desc"),
+            tags: ["MongoDB", "Express", "React", "Node.js"],
+            demo: "https://youtu.be/iTvTdeK2C-Q",
+            repo: "https://github.com/Henriquewtd-cyber/NeuroPost",
+            links: t("projects.links.demo")
+        },
+        {
+            emoji: "📅",
+            bg: "linear-gradient(135deg,#0f2027,#203a43)",
+            title: t("projects.clientmanager.title"),
+            desc: t("projects.clientmanager.desc"),
+            tags: ["Next.js", "Node.js", "TypeScript", "MongoDB", "Redis"],
+            demo: "https://github.com/Henriquewtd-cyber/Client-Manager",
+            repo: "https://github.com/Henriquewtd-cyber/Client-Manager",
+            links: t("projects.links.dev")
+        },
+        {
+            emoji: "📁",
+            bg: "linear-gradient(135deg,#1a0533,#2d0b5a)",
+            title: t("projects.acervopet.title"),
+            desc: t("projects.acervopet.desc"),
+            tags: ["Next.js", "Node.js", "TypeScript", "PostgreSQL"],
+            demo: "https://youtu.be/NZLMlUFhGDM",
+            repo: "https://github.com/acervopet/AcervoPet",
+            links: t("projects.links.demo")
+        },
+        {
+            emoji: "⚙️",
+            bg: "linear-gradient(135deg,#232526,#414345)",
+            title: t("projects.automation.title"),
+            desc: t("projects.automation.desc"),
+            tags: ["n8n", "Google Cloud", "Automação"],
+            demo: "../../../n8n-model.webp",
+            repo: "#",
+            links: t("projects.links.viewPreview")
+        },
+    ];
+}
 
 export default function Projects() {
-
+    const { t } = useLang();
+    const PROJECTS = getProjects(t);
     return (
         <>
             <div className="section-header">
-                <div className="section-tag">Portfólio</div>
-                <h2 className="section-title">Projetos em<br /><em style={{ fontFamily: "'Playfair Display',serif", fontStyle: "italic", color: "var(--accent)" }}>destaque</em></h2>
+                <div className="section-tag">{t("projects.tag")}</div>
+                <h2 className="section-title">{t("projects.title.part1")} <br /><em style={{ fontFamily: "'Playfair Display',serif", fontStyle: "italic", color: "var(--accent)" }}>{t("projects.title.part2")}</em></h2>
             </div>
             <div className="projects-grid">
                 {PROJECTS.map((proj, i) => (

@@ -242,10 +242,33 @@ section {
 
 
 
+.lang-wrapper {
+  position: relative;
+  display: inline-block;
+  margin-left: 5px;
+  margin-right: 5px;
+}
 
+.lang-tooltip {
+  position: absolute;
+  bottom: -35px;
+  left: 50%;
+  transform: translateX(-50%) translateY(5px);
+  background: #111;
+  color: #fff;
+  padding: 6px 10px;
+  font-size: 12px;
+  border-radius: 6px;
+  opacity: 0;
+  pointer-events: none;
+  transition: 0.2s ease;
+  white-space: nowrap;
+}
 
-
-
+.lang-wrapper:hover .lang-tooltip {
+  opacity: 1;
+  transform: translateX(-50%) translateY(0);
+}
 
 
 
@@ -331,6 +354,12 @@ footer {
   .contact-layout {
     grid-template-columns: 1fr;
     gap: 48px;
+  }
+
+  .lang-wrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
   }
 
   footer {

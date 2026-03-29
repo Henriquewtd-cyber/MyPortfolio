@@ -1,161 +1,178 @@
-
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, createContext, useContext } from "react";
 import { motion } from "framer-motion";
+import { t as translate } from "./i8n/i8n";
 
-import Hero from "./components/Hero/hero"
+import Hero from "./components/Hero/hero";
 import AboutMe from "./components/AboutMe/aboutme";
-import Techs from "./components/Techs/techs"
+import Techs from "./components/Techs/techs";
 import Projects from "./components/Projects/projects";
 import Education from "./components/Education/education";
-import Contact from "./components/Contact/contact"
+import Contact from "./components/Contact/contact";
 
-import navigate from "./services/navigate"
-import { Link, Element, scroller } from "react-scroll";
+import navigate from "./services/navigate";
+import { Link, Element } from "react-scroll";
 
 import "./App.css";
 
-const PAGES = ["Início", "Sobre", "Tecnologias", "Projetos", "Educação", "Contato"];
+export const LangContext = createContext("pt");
 
-const PAGE_TO_ELEMENT = {
-  "Início": "início",
-  "Sobre": "sobre",
-  "Tecnologias": "tecnologias",
-  "Projetos": "projetos",
-  "Educação": "educação",
-  "Contato": "contato",
-};
+export function useLang() {
+  const lang = useContext(LangContext);
+  return { lang, t: (key) => translate(key, lang) };
+}
 
-const ELEMENT_TO_PAGE = Object.fromEntries(
-  Object.entries(PAGE_TO_ELEMENT).map(([page, el]) => [el, page])
-);
+// ─── Páginas ─────────────────────────────────────────────────────────────────
+const PAGES = [
+  { key: "nav.home", id: "início" },
+  { key: "nav.about", id: "sobre" },
+  { key: "nav.tech", id: "tecnologias" },
+  { key: "nav.projects", id: "projetos" },
+  { key: "nav.education", id: "educação" },
+  { key: "nav.contact", id: "contato" },
+];
 
 const sectionVariants = {
   hidden: { opacity: 0, y: 60 },
-  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } }
+  show: { opacity: 1, y: 0, transition: { duration: 0.6, ease: "easeOut" } },
 };
 
-export default function Portfolio() {
-  const [activePage, setActivePage] = useState("Início");
-  const [lang, setLang] = useState("pt");
-  const [menuOpen, setMenuOpen] = useState(false);
-  const menuRef = useRef(null);
+function getInitialLang() {
+  const saved = localStorage.getItem("lang");
+  if (saved) return saved;
+  const browserLang = navigator.language || navigator.userLanguage || "pt";
+  return browserLang.startsWith("pt") ? "pt" : "en";
+}
 
+export default function Portfolio() {
+  const [activePage, setActivePage] = useState("início");
+  const [lang, setLang] = useState(getInitialLang);
+  const [menuOpen, setMenuOpen] = useState(false);
+
+  const t = (key) => translate(key, lang);
+
+  const menuRef = useRef(null);
+  const isFirstRender = useRef(true);
+
+  useEffect(() => {
+    isFirstRender.current = false;
+  }, []);
+
+  useEffect(() => {
+    localStorage.setItem("lang", lang);
+  }, [lang]);
+
+  // Fecha menu ao clicar fora
   useEffect(() => {
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setMenuOpen(false);
       }
     }
-
-    if (menuOpen) {
-      document.addEventListener("mousedown", handleClickOutside);
-    }
-
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    if (menuOpen) document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, [menuOpen]);
 
+  function toggleLang() {
+    setLang((l) => (l === "pt" ? "en" : "pt"));
+  }
+
   return (
-    <div className="portfolio">
-      <nav ref={menuRef}>
-        <div className="nav-logo">{"<Henrique />"}</div>
-
-        {/* Hamburger */}
-        <button
-          className="nav-hamburger"
-          onClick={() => setMenuOpen(!menuOpen)}
-          aria-label="Menu"
+    <LangContext.Provider value={lang}>
+      <div className="portfolio">
+        <motion.div
+          key={lang}
+          initial={isFirstRender.current ? false : { opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.4, ease: "easeInOut" }}
         >
-          {menuOpen ? "✕" : "☰"}
-        </button>
+          <nav ref={menuRef}>
+            <div className="nav-logo">{"<Henrique />"}</div>
 
-        <div
-          className={`nav-links ${menuOpen ? "open" : ""}`}
-        >
+            <button
+              className="nav-hamburger"
+              onClick={() => setMenuOpen(!menuOpen)}
+              aria-label="Menu"
+            >
+              {menuOpen ? "✕" : "☰"}
+            </button>
 
-          {PAGES.map((p) => {
-            const elementName = PAGE_TO_ELEMENT[p];
-
-            return (
-              <Link
-                key={p}
-                to={elementName}
-                smooth={true}
-                offset={-80}
-                spy={true}
-                onSetActive={(id) => setActivePage(ELEMENT_TO_PAGE[id])}
-              >
-                <button
-                  className={`nav-link ${activePage === p ? "active" : ""}`}
-                  onClick={() => navigate(p)}
+            <div className={`nav-links ${menuOpen ? "open" : ""}`}>
+              {PAGES.map((p) => (
+                <Link
+                  key={p.id}
+                  to={p.id}
+                  smooth
+                  offset={-80}
+                  spy
+                  onSetActive={(id) => setActivePage(id)}
                 >
-                  {p}
+                  <button
+                    className={`nav-link ${activePage === p.id ? "active" : ""}`}
+                    onClick={() => navigate(p.id)}
+                  >
+                    {t(p.key)}
+                  </button>
+                </Link>
+              ))}
+
+              <div className="lang-wrapper">
+                <button className="nav-lang-switch" onClick={toggleLang}>
+                  {lang === "pt" ? "🇺🇸 EN" : "🇧🇷 PT"}
                 </button>
-              </Link>
-            );
-          })}
 
-          {/* <button 
-            className="nav-lang-switch"
-            onClick={() => setLang(l => (l === "pt" ? "en" : "pt"))}
-          >
-            {lang === "pt" ? "🇧🇷 PT" : "🇺🇸 EN"}
-          </button> */}
+                <span className="lang-tooltip">
+                  {lang === "pt" ? "Switch to English" : "Mudar para Português"}
+                </span>
+              </div>
+            </div>
+          </nav>
 
-        </div>
-      </nav>
+          <div className="fade-in">
+            <Element name="início">
+              <motion.section variants={sectionVariants} initial="hidden" whileInView="show" viewport={{ once: true }}>
+                <Hero />
+              </motion.section>
+            </Element>
 
-      <div className="fade-in">
+            <Element name="sobre">
+              <motion.section variants={sectionVariants} initial="hidden" whileInView="show" viewport={{ once: true }}>
+                <AboutMe />
+              </motion.section>
+            </Element>
 
-        {/* HERO */}
-        <Element name="início">
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }}>
-            <Hero />
-          </motion.section>
-        </Element>
+            <Element name="tecnologias">
+              <motion.section variants={sectionVariants} initial="hidden" whileInView="show" viewport={{ once: true }}>
+                <Techs />
+              </motion.section>
+            </Element>
 
-        {/* SOBRE */}
-        <Element name="sobre">
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }}>
-            <AboutMe />
-          </motion.section>
-        </Element>
+            <Element name="projetos">
+              <motion.section variants={sectionVariants} initial="hidden" whileInView="show" viewport={{ once: true }}>
+                <Projects />
+              </motion.section>
+            </Element>
 
-        {/* TECH */}
-        <Element name="tecnologias">
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }}>
-            <Techs />
-          </motion.section>
-        </Element>
+            <Element name="educação">
+              <motion.section variants={sectionVariants} initial="hidden" whileInView="show" viewport={{ once: true }}>
+                <Education />
+              </motion.section>
+            </Element>
 
-        {/* PROJECTS */}
-        <Element name="projetos">
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }}>
-            <Projects />
-          </motion.section>
-        </Element>
+            <Element name="contato">
+              <motion.section variants={sectionVariants} initial="hidden" whileInView="show" viewport={{ once: true }}>
+                <Contact />
+              </motion.section>
+            </Element>
+          </div>
 
-        {/* EDUCAÇÃO */}
-        <Element name="educação">
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }}>
-            <Education />
-          </motion.section>
-        </Element>
-
-        {/* CONTACT */}
-        <Element name="contato">
-          <motion.section variants={sectionVariants} initial="hidden" whileInView="show" viewport={{ once: true, margin: "-100px" }}>
-            <Contact />
-          </motion.section>
-        </Element>
-
+          <footer>
+            <span>{t("footer.text")}</span>
+            <span style={{ color: "var(--accent)" }}>
+              {t("footer.available")}
+            </span>
+          </footer>
+        </motion.div>
       </div>
-
-      <footer>
-        <span>© 2025 Henrique.</span>
-        <span style={{ color: "var(--accent)" }}>Disponível para trabalho</span>
-      </footer>
-    </div >
+    </LangContext.Provider>
   );
 }

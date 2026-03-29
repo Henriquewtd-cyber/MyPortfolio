@@ -1,40 +1,45 @@
+
+import { useLang } from "../../App";
 import { useEffect, useRef, useState } from "react";
 import "./timeline.css";
 
-const timelineData = [
-    {
-        year: "2025",
-        title: "Início da Graduação",
-        role: "Ciência da Computação — IME-USP",
-        description:
-            "Ingresso no curso de Ciência da Computação, com foco no desenvolvimento de software, lógica de programação e fundamentos de sistemas.",
-        tags: ["Algoritmos", "Programação", "Fundamentos"],
-        color: "#C8FF00",
-    },
-    {
-        year: "2025",
-        title: "Experiência Prática",
-        role: "Desenvolvedor — IMEJR",
-        description:
-            "Atuação em projetos reais dentro da empresa júnior, desenvolvendo soluções com foco em backend, automações e integração entre sistemas.",
-        tags: ["Backend", "APIs", "Automação"],
-        color: "#C8FF00",
-    },
-    {
-        year: "2026",
-        title: "Primeiro Freelance",
-        role: "Desenvolvedor Fullstack",
-        description:
-            "Desenvolvimento de sistema de agendamento com gestão de agenda e automações via chatbot, incluindo integração com serviços externos.",
-        tags: ["Next.js", "Node.js", "n8n", "MongoDB"],
-        color: "#C8FF00",
-    },
-];
+function getTimelineData(t: (key: string) => string) {
+    return (
+        [
+            {
+                year: "2025",
+                title: t("timeline.item1.title"),
+                role: t("timeline.item1.role"),
+                description: t("timeline.item1.description"),
+                tags: t("timeline.item1.tags").split(",").map(tag => tag.trim()),
+                color: "#C8FF00",
+            },
+            {
+                year: "2025",
+                title: t("timeline.item2.title"),
+                role: t("timeline.item2.role"),
+                description: t("timeline.item2.description"),
+                tags: t("timeline.item2.tags").split(",").map(tag => tag.trim()),
+                color: "#C8FF00",
+            },
+            {
+                year: "2026",
+                title: t("timeline.item3.title"),
+                role: t("timeline.item3.role"),
+                description: t("timeline.item3.description"),
+                tags: t("timeline.item3.tags").split(",").map(tag => tag.trim()),
+                color: "#C8FF00",
+            },
+        ]);
+}
 
 export default function Timeline() {
-    const containerRef = useRef(null);
+    const { t } = useLang();
+    const containerRef = useRef<HTMLDivElement>(null);
     const lineRef = useRef(null);
     const [lineActive, setLineActive] = useState(false);
+
+    const timelineData = getTimelineData(t);
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -54,7 +59,7 @@ export default function Timeline() {
             },
             { threshold: 0.2 }
         );
-        items.forEach((item) => observer.observe(item));
+        items.forEach((item: any) => observer.observe(item));
         return () => observer.disconnect();
     }, []);
 
@@ -78,7 +83,6 @@ export default function Timeline() {
                                     className={`tl-item ${isMiddle ? "is-right" : "is-left"}`}
                                     style={{ color: item.color }}
                                 >
-                                    {/* Node always first in DOM — CSS order handles desktop positioning */}
                                     <div className="tl-node-col">
                                         <div className="tl-dot" style={{ borderColor: item.color }} />
                                     </div>
