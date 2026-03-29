@@ -21,7 +21,7 @@ export default function () {
                     <div className="avatar-wrap">
                         <div className="avatar-frame" />
                         <div className="avatar-img">
-                            <img src="../../../profilepicture.jpeg"></img>
+                            <img src="./profilepicture.jpeg" alt="Henrique Dias" />
                         </div>
                         <div className="avatar-badge">
                             <span className="badge-num">1+</span>
