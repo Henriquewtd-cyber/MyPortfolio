@@ -11,7 +11,7 @@ function getProjects(t: (key: string) => string) {
             title: t("projects.neuropost.title"),
             desc: t("projects.neuropost.desc"),
             tags: ["MongoDB", "Express", "React", "Node.js"],
-            demo: "https://youtu.be/iTvTdeK2C-Q",
+            demo: "https://youtu.be/jZGZgrTmO2I",
             repo: "https://github.com/Henriquewtd-cyber/NeuroPost",
             links: t("projects.links.demo")
         },
@@ -31,7 +31,7 @@ function getProjects(t: (key: string) => string) {
             title: t("projects.acervopet.title"),
             desc: t("projects.acervopet.desc"),
             tags: ["Next.js", "Node.js", "TypeScript", "PostgreSQL"],
-            demo: "https://youtu.be/NZLMlUFhGDM",
+            demo: "https://youtu.be/tChIFK3A1sY",
             repo: "https://github.com/acervopet/AcervoPet",
             links: t("projects.links.demo")
         },
